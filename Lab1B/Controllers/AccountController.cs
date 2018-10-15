@@ -443,45 +443,6 @@ namespace Lab1B.Controllers
             return View();
         }
         
-        [AllowAnonymous]
-        public async Task<IActionResult> SeedRoles()
-        {
-            ApplicationUser user1 = new ApplicationUser
-            {
-                Email = "lebron@james.com",
-                UserName = "lebron@james.com",
-                FirstName = "Lebron",
-                LastName = "James"
-            };
-            ApplicationUser user2 = new ApplicationUser
-            {
-                Email = "jill@james.com",
-                UserName = "jill@james.com",
-                FirstName = "Jill",
-                LastName = "James"
-            };
-            IdentityResult result = await _userManager.CreateAsync(user1, "P4$$word");
-            if (!result.Succeeded)
-                return View("Error", new ErrorViewModel { RequestId = "Failed to add new user" });
-            result = await _roleManager.CreateAsync(new IdentityRole("Employee"));
-            if (!result.Succeeded)
-                return View("Error", new ErrorViewModel { RequestId = "Failed to add new role" });
-            result = await _userManager.AddToRoleAsync(user1, "Employee");
-            if (!result.Succeeded)
-                return View("Error", new ErrorViewModel { RequestId = "Failed to assign user to role" });
-            result = await _userManager.CreateAsync(user2, "P4$$word");
-            if (!result.Succeeded)
-                return View("Error", new ErrorViewModel { RequestId = "Failed to add new user" });
-            result = await _roleManager.CreateAsync(new IdentityRole("Manager"));
-            if (!result.Succeeded)
-                return View("Error", new ErrorViewModel { RequestId = "Failed to add new role" });
-            result = await _userManager.AddToRoleAsync(user2, "Manager");
-            if (!result.Succeeded)
-                return View("Error", new ErrorViewModel { RequestId = "Failed to assign user to role" });
-
-            return RedirectToAction(nameof(Login));
-        }
-
         #region Helpers
 
         private void AddErrors(IdentityResult result)
